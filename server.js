@@ -203,32 +203,6 @@ app.get('*', (req, res, next) => {
   res.sendFile(path.join(publicDir, 'index.html'));
 });
 
-// alias GET list
-app.get('/api/entries', (req, res) => app._router.handle(
-  Object.assign(req, { url: '/api/metrics' }), res, () => {}
-));
-
-// alias POST create
-app.post('/api/entries', (req, res) => app._router.handle(
-  Object.assign(req, { url: '/api/metrics' }), res, () => {}
-));
-
-// alias GET by id
-app.get('/api/entries/:id', (req, res) => app._router.handle(
-  Object.assign(req, { url: `/api/metrics/${req.params.id}` }), res, () => {}
-));
-
-// alias DELETE
-app.delete('/api/entries/:id', (req, res) => app._router.handle(
-  Object.assign(req, { url: `/api/metrics/${req.params.id}` }), res, () => {}
-));
-
-// alias stats
-app.get('/api/entry-stats', (req, res) => app._router.handle(
-  Object.assign(req, { url: '/api/stats' }), res, () => {}
-));
-
-
 // ---------- Error / 404 ----------
 app.use((err, _req, res, _next) => {
   console.error('Unhandled error:', err);
