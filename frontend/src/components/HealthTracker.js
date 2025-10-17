@@ -14,7 +14,21 @@ const HealthTracker = () => {
   const [success, setSuccess] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
 
-  const API_URL = 'http://localhost:3001/api';
+// Base
+const API_URL = process.env.REACT_APP_API_URL || '/api';
+
+// List (with optional start/end)
+fetch(`${API_URL}/entries?start=${start}&end=${end}`);
+
+// Create
+fetch(`${API_URL}/entries`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ date, steps, heart_rate }),
+});
+
+// Stats (if you show averages on the page)
+fetch(`${API_URL}/entry-stats`);
 
   const fetchMetrics = async () => {
     try {
