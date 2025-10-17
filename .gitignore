@@ -8,3 +8,4 @@ package-lock.json
 .idea/
 data/
 frontend/build/
+frontend/.env.local
