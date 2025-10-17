@@ -4,6 +4,9 @@ A full-stack health tracking application with React frontend and Node.js backend
 
 ## Quick Start
 
+For running locally, add the file: frontend/.env.local with the following content:
+REACT_APP_API_URL=/api
+
 ### Option 1: Docker (Recommended)
 ```bash
 docker-compose up -d
@@ -45,7 +48,8 @@ health-tracker/
 ├── .gitignore
 ├── README.md
 ├── frontend/
-│   ├── package.json           # Frontend deps/scripts
+│   ├── .env.local            # ← added (frontend build-time envs)
+│   ├── package.json          # Frontend deps/scripts
 │   ├── postcss.config.js
 │   ├── tailwind.config.js
 │   ├── public/
@@ -57,6 +61,7 @@ health-tracker/
 │       └── components/
 │           ├── HealthTracker.js
 │           └── MetricsCharts.jsx
+
 
 ```
 
