@@ -1,6 +1,6 @@
 # Health Tracker Dashboard
 
-A full-stack health tracking application with React frontend and Node.js backend.
+A full-stack health tracking application with React frontend and Node.js backend. [Try it online here](https://health-tracker-y9ki.onrender.com "Health Tracker Dashboard")
 
 ## Quick Start
 
