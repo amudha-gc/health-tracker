@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* index.css — Tailwind v4 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Theme tokens + helpers --- */
+:root {
+  --bg: #0b1220;           /* deep navy */
+  --panel: #0e1627;
+  --panel-2: #0f1a2f;
+  --ink: #b8c7e0;          /* cool gray text */
+  --muted: #7f8da8;
+  --accent: #35f4c0;       /* mint/cyan glow */
+  --accent-2: #2bd4ff;     /* cyan */
+  --danger: #ff5b6e;
+}
+
+body { background: var(--bg); color: var(--ink); }
+
+.glass {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(120, 150, 200, 0.15);
+}
+
+.btn-primary {
+  @apply rounded-xl font-semibold px-5 py-3 transition shadow;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: #0b1220;
+  box-shadow: 0 0 0 0 rgba(53, 244, 192, 0.7);
+}
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:disabled { opacity: .6; }
+
+.input-dark {
+  @apply w-full rounded-xl px-4 py-3 outline-none transition;
+  background: #0b1528;
+  border: 1px solid rgba(120, 150, 200, 0.18);
+  color: var(--ink);
+}
+.input-dark::placeholder { color: #687696; }
+.input-dark:focus {
+  box-shadow: 0 0 0 3px rgba(43, 212, 255, .25);
+  border-color: rgba(43, 212, 255, .6);
+}
+
+.card {
+  @apply rounded-2xl p-6;
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+  border: 1px solid rgba(120, 150, 200, 0.12);
+}
+
+.hr {
+  border-color: rgba(120, 150, 200, 0.16);
+}
+
+/* --- breathing glow for primary button --- */
+@keyframes pulse-glow {
+  0%   { box-shadow: 0 0 0 0 rgba(53, 244, 192, 0.55), 0 0 24px rgba(43, 212, 255, 0.25); }
+  50%  { box-shadow: 0 0 0 10px rgba(53, 244, 192, 0.00), 0 0 30px rgba(43, 212, 255, 0.40); }
+  100% { box-shadow: 0 0 0 0 rgba(53, 244, 192, 0.00), 0 0 24px rgba(43, 212, 255, 0.25); }
+}
+.btn-primary.animate-glow {
+  animation: pulse-glow 2.6s ease-in-out infinite;
+}
+
+/* input with leading icon */
+.input-wrap {
+  position: relative;
+}
+.input-wrap .input-dark {
+  padding-left: 2.6rem; /* room for icon */
+}
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.8rem;
+  transform: translateY(-50%);
+  color: #9fb1cc;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+

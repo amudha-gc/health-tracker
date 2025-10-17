@@ -1,0 +1,12 @@
+# Ignore local dependencies and build artifacts
+node_modules
+frontend/node_modules
+frontend/build
+frontend/.cache
+
+# OS / tooling cruft
+*.log
+.DS_Store
+__MACOSX
+.git
+.gitignore
