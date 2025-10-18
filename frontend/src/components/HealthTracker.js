@@ -14,7 +14,23 @@ const HealthTracker = () => {
   const [success, setSuccess] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
 
-  const API_URL = process.env.REACT_APP_API_URL || '/api';
+  // FIX: Better API URL handling
+  const getApiUrl = () => {
+    // If REACT_APP_API_URL is set, use it
+    if (process.env.REACT_APP_API_URL) {
+      return process.env.REACT_APP_API_URL;
+    }
+    
+    // If running on same port (production/Docker), use relative path
+    if (window.location.port === '3001') {
+      return '/api';
+    }
+    
+    // If running on different port (development), point to backend
+    return 'http://localhost:3001/api';
+  };
+
+  const API_URL = getApiUrl();
 
   const fetchMetrics = async () => {
     try {
@@ -35,6 +51,7 @@ const HealthTracker = () => {
       setError('');
     } catch (err) {
       setError(err.message || 'Failed to fetch metrics');
+      console.error('Fetch error:', err);
     } finally {
       setLoading(false);
     }
@@ -51,7 +68,7 @@ const HealthTracker = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           date: formData.date,
-          steps: formData.steps,          // send raw values; server validates & parses
+          steps: formData.steps,
           heart_rate: formData.heart_rate
         }),
       });
@@ -62,7 +79,7 @@ const HealthTracker = () => {
       }
 
       // Optimistic update with saved row
-      const saved = await response.json(); // { id, date, steps, heart_rate, ... }
+      const saved = await response.json();
       setMetrics(prev =>
         [...prev, saved].sort((a, b) => new Date(a.date) - new Date(b.date))
       );
@@ -79,6 +96,7 @@ const HealthTracker = () => {
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
       setError(err.message || 'Failed to save metric');
+      console.error('Submit error:', err);
     } finally {
       setLoading(false);
     }
@@ -98,6 +116,41 @@ const HealthTracker = () => {
     metrics.length > 0
       ? Math.round(metrics.reduce((sum, m) => sum + m.heart_rate, 0) / metrics.length)
       : 0;
+
+  // Animated counter state
+  const [animatedSteps, setAnimatedSteps] = useState(0);
+  const [animatedHeartRate, setAnimatedHeartRate] = useState(0);
+  const [animatedEntries, setAnimatedEntries] = useState(0);
+
+  // Animate counters when values change
+  useEffect(() => {
+    const animateValue = (start, end, duration, setter) => {
+      if (end === 0) {
+        setter(0);
+        return;
+      }
+      
+      let startTime = null;
+      
+      const animate = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        setter(Math.floor(easeOutQuart * end));
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+      
+      requestAnimationFrame(animate);
+    };
+
+    animateValue(0, metrics.length, 1000, setAnimatedEntries);
+    animateValue(0, avgSteps, 1500, setAnimatedSteps);
+    animateValue(0, avgHeartRate, 1500, setAnimatedHeartRate);
+  }, [metrics.length, avgSteps, avgHeartRate]);
 
   return (
     <div className="min-h-screen">
@@ -132,7 +185,7 @@ const HealthTracker = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[var(--muted)] text-xs font-semibold uppercase mb-1">Total entries</p>
-                <p className="text-4xl font-bold text-white">{metrics.length}</p>
+                <p className="text-4xl font-bold text-white">{animatedEntries}</p>
               </div>
               <Calendar className="w-14 h-14 text-[var(--accent-2)] opacity-60" />
             </div>
@@ -141,7 +194,7 @@ const HealthTracker = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[var(--muted)] text-xs font-semibold uppercase mb-1">Avg steps</p>
-                <p className="text-4xl font-bold text-white">{avgSteps.toLocaleString()}</p>
+                <p className="text-4xl font-bold text-white">{animatedSteps.toLocaleString()}</p>
               </div>
               <TrendingUp className="w-14 h-14 text-[var(--accent)] opacity-60" />
             </div>
@@ -151,7 +204,7 @@ const HealthTracker = () => {
               <div>
                 <p className="text-[var(--muted)] text-xs font-semibold uppercase mb-1">Avg heart rate</p>
                 <p className="text-4xl font-bold text-white">
-                  {avgHeartRate} <span className="text-xl">bpm</span>
+                  {animatedHeartRate} <span className="text-xl">bpm</span>
                 </p>
               </div>
               <Heart className="w-14 h-14 text-[#ff7aa0] opacity-60" />
@@ -174,13 +227,18 @@ const HealthTracker = () => {
               <label className="block text-xs font-semibold text-[var(--muted)] mb-2 uppercase">
                 Date
               </label>
-              <div className="input-wrap">
-                <Calendar className="w-5 h-5 input-icon" />
+              <div className="input-wrap relative">
+                <Calendar className="w-5 h-5 input-icon text-[var(--accent-2)] pointer-events-none z-10" />
                 <input
                   type="date"
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                  className="input-dark"
+                  className="input-dark cursor-pointer"
+                  style={{ 
+                    colorScheme: 'dark',
+                    color: 'white',
+                    background: '#0c1427',
+                  }}
                 />
               </div>
             </div>
@@ -278,12 +336,13 @@ const HealthTracker = () => {
                 Start Date
               </label>
               <div className="input-wrap">
-                <Calendar className="w-5 h-5 input-icon" />
+                <Calendar className="w-5 h-5 input-icon text-[var(--accent-2)]" />
                 <input
                   type="date"
                   value={dateRange.start}
                   onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                  className="input-dark"
+                  className="input-dark cursor-pointer"
+                  style={{ colorScheme: 'dark' }}
                 />
               </div>
             </div>
@@ -294,12 +353,13 @@ const HealthTracker = () => {
                 End Date
               </label>
               <div className="input-wrap">
-                <Calendar className="w-5 h-5 input-icon" />
+                <Calendar className="w-5 h-5 input-icon text-[var(--accent-2)]" />
                 <input
                   type="date"
                   value={dateRange.end}
                   onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                  className="input-dark"
+                  className="input-dark cursor-pointer"
+                  style={{ colorScheme: 'dark' }}
                 />
               </div>
             </div>
@@ -326,10 +386,10 @@ const HealthTracker = () => {
 
         {/* Table */}
         <div className="card">
-           <div className="flex items-center gap-2 mb-4">
-    <div className="w-1.5 h-6 rounded bg-gradient-to-b from-[var(--accent-2)] to-[var(--accent)]" />
-    <h2 className="text-xl md:text-2xl font-semibold text-white">All Entries</h2>
-  </div>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1.5 h-6 rounded bg-gradient-to-b from-[var(--accent-2)] to-[var(--accent)]" />
+            <h2 className="text-xl md:text-2xl font-semibold text-white">All Entries</h2>
+          </div>
           {metrics.length ? (
             <div className="overflow-x-auto">
               <table className="w-full">
