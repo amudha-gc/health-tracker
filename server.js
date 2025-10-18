@@ -63,7 +63,7 @@ app.use('/api', (_req, res, next) => {
 
 /* ------------------------------ SQLite setup ----------------------------- */
 
-const DB_PATH = process.env.DB_PATH || './health_tracker.db';
+const DB_PATH = process.env.DB_PATH || '/app/data/health_tracker.db';
 const db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) console.error('Error opening database:', err);
   else {

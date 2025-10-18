@@ -2,32 +2,62 @@
 
 A full-stack health tracking application with React frontend and Node.js backend. [Try it online here](https://health-tracker-y9ki.onrender.com "Health Tracker Dashboard")
 
-## Quick Start
+### Deploying locally on Docker
 
-For running locally, add the file: frontend/.env.local with the following content:
-REACT_APP_API_URL=/api
+## Prerequisites
 
-### Option 1: Docker (Recommended)
-```bash
-docker-compose up -d
-```
-Access at: http://localhost:3001
+1.  **Docker Engine Installed:**  
+    Verify that Docker Engine is installed and accessible by running:
+    ```bash
+    docker --version
+    ```
+    This should output the Docker client and server versions.
 
-### Option 2: Local Development
+2.  **Docker Compose Plugin (v2) Installed:**  
+    Ensure you have the Docker Compose V2 plugin installed. You can check its version with:
+    ```bash
+    docker compose version
+    ```
+    
+3.  **Free Port 3001:**  
+    The application's API server runs on port `3001`. Ensure this port is not already in use by another application on your system.
 
-**Backend:**
-```bash
-npm install
-npm start
-```
+4.  **Internet Access:**  
+    An active internet connection is required during the initial setup to download Docker images and install Node.js dependencies (`npm install`).
 
-**Frontend (new terminal):**
-```bash
-cd frontend
-npm install
-npm install -D tailwindcss postcss autoprefixer
-npm start
-```
+## How to Run
+
+Follow these steps to get the application running with Docker Compose:
+
+1.  **Create a file named .env.local file inside the directory called frontend present at the root level:**  
+
+	Add the following content:
+	REACT_APP_API_URL=/api
+
+2.  **Create Data Directory:**  
+    Ensure the necessary mount directory for database exists:
+    ```bash
+    mkdir -p data
+    ```
+
+3.  **Start the Services:**  
+    Build and start the Docker containers in detached mode:
+    ```bash
+    docker compose build --no-cache && docker compose up -d
+    ```
+    
+## Verification
+
+* **Application Frontend:**  
+    [http://localhost:3001](http://localhost:3001)
+
+* **Backend API Health Check:**  
+    To confirm the backend API is running correctly, visit:
+    [http://localhost:3001/api/health](http://localhost:3001/api/health)
+    This should return a JSON response similar to:
+    ```json
+    {"status":"ok","message":"Health Tracker API is running"}
+    ```
 
 ## API Endpoints
 
