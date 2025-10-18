@@ -260,9 +260,9 @@ export default function MetricsCharts({ data }) {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex items-center justify-center gap-2 mt-2 text-xs text-red-400">
+            <div className="flex items-center justify-center gap-2 mt-2 text-xs text-cyan-400">
               <ZoomIn className="w-4 h-4" />
-              <span>Drag the red slider to zoom</span>
+              <span>Drag the green slider to zoom</span>
             </div>
           </div>
         </div>
