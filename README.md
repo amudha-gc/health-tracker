@@ -2,9 +2,25 @@
 
 A full-stack health tracking application with React frontend and Node.js backend. [Try it online here](https://health-tracker-y9ki.onrender.com "Health Tracker Dashboard")
 
-### Deploying locally on Docker
+## Features
 
-## Prerequisites
+- Add daily health metrics (steps, heart rate)
+- View statistics and averages
+- Interactive charts with Recharts
+- Date range filtering
+- RESTful API with SQLite database
+- Docker support
+- Evolt360-inspired dark theme
+
+## Tech Stack
+
+- **Frontend:** React, Recharts, Tailwind CSS, Lucide React
+- **Backend:** Node.js, Express, SQLite
+- **DevOps:** Docker, Docker Compose
+
+## Local Docker Deployment Steps
+
+### Prerequisites
 
 1.  **Docker Engine Installed:**  
     Verify that Docker Engine is installed and accessible by running:
@@ -25,7 +41,7 @@ A full-stack health tracking application with React frontend and Node.js backend
 4.  **Internet Access:**  
     An active internet connection is required during the initial setup to download Docker images and install Node.js dependencies (`npm install`).
 
-## How to Run
+### Before Running the application
 
 Follow these steps to get the application running with Docker Compose:
 
@@ -40,13 +56,15 @@ Follow these steps to get the application running with Docker Compose:
     mkdir -p data
     ```
 
-3.  **Start the Services:**  
+### Starting the application
+
+1.  **Start the Services:**  
     Build and start the Docker containers in detached mode:
     ```bash
     docker compose build --no-cache && docker compose up -d
     ```
     
-## Verification
+### Verifying the application
 
 * **Application Frontend:**  
     [http://localhost:3001](http://localhost:3001)
@@ -95,22 +113,6 @@ health-tracker/
 
 ```
 
-
-## Features
-
-- Add daily health metrics (steps, heart rate)
-- View statistics and averages
-- Interactive charts with Recharts
-- Date range filtering
-- RESTful API with SQLite database
-- Docker support
-- Evolt360-inspired dark theme
-
-## Tech Stack
-
-- **Frontend:** React, Recharts, Tailwind CSS, Lucide React
-- **Backend:** Node.js, Express, SQLite
-- **DevOps:** Docker, Docker Compose
 
 ## License
 
