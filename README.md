@@ -95,9 +95,11 @@ health-tracker/
 ├── .dockerignore
 ├── .gitignore
 ├── README.md
+├── data/
+│   └── health_tracker.db      # SQLite DB (auto-created on first run if missing)
 ├── frontend/
-│   ├── .env.local            # ← added (frontend build-time envs)
-│   ├── package.json          # Frontend deps/scripts
+│   ├── .env.local             # frontend build-time envs
+│   ├── package.json           # Frontend deps/scripts
 │   ├── postcss.config.js
 │   ├── tailwind.config.js
 │   ├── public/
@@ -109,6 +111,7 @@ health-tracker/
 │       └── components/
 │           ├── HealthTracker.js
 │           └── MetricsCharts.jsx
+
 
 
 ```
