@@ -14,23 +14,8 @@ const HealthTracker = () => {
   const [success, setSuccess] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
 
-  // FIX: Better API URL handling
-  const getApiUrl = () => {
-    // If REACT_APP_API_URL is set, use it
-    if (process.env.REACT_APP_API_URL) {
-      return process.env.REACT_APP_API_URL;
-    }
-    
-    // If running on same port (production/Docker), use relative path
-    if (window.location.port === '3001') {
-      return '/api';
-    }
-    
-    // If running on different port (development), point to backend
-    return 'http://localhost:3001/api';
-  };
+ const API_URL = process.env.REACT_APP_API_URL || '/api';
 
-  const API_URL = getApiUrl();
 
   const fetchMetrics = async () => {
     try {

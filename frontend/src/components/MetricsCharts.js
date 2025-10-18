@@ -239,9 +239,9 @@ export default function MetricsCharts({ data }) {
                     type="monotone"
                     dataKey="heart_rate"
                     name="Heart Rate (bpm)"
-                    stroke="#ff5b6e"
+                    stroke="#35f4c0"
                     strokeWidth={3}
-                    dot={makeDot("#ff5b6e", !isDense)}
+                    dot={makeDot("#35f4c0", !isDense)}
                     activeDot={isDense ? false : { r: 6, strokeWidth: 3 }}
                     connectNulls
                   />
@@ -249,12 +249,12 @@ export default function MetricsCharts({ data }) {
                     dataKey="date"
                     height={36}
                     fill="rgba(255, 91, 110, 0.12)"
-                    stroke="#ff5b6e"
+                    stroke="#35f4c0"
                     travellerWidth={12}
                     traveller={<BrushHandle />}
                   >
                     <LineChart>
-                      <Line type="monotone" dataKey="heart_rate" stroke="#ff5b6e" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="heart_rate" stroke="#35f4c0" strokeWidth={2} dot={false} />
                     </LineChart>
                   </Brush>
                 </LineChart>
@@ -314,9 +314,9 @@ export default function MetricsCharts({ data }) {
                   type="monotone"
                   dataKey="hr_norm"
                   name="Heart Rate (normalized)"
-                  stroke="#ff5b6e"
+                  stroke="#35f4c0"
                   strokeWidth={3}
-                  dot={makeDot("#ff5b6e", !isDense)}
+                  dot={makeDot("#35f4c0", !isDense)}
                   activeDot={isDense ? false : { r: 6, strokeWidth: 3 }}
                   connectNulls
                 />
@@ -330,7 +330,7 @@ export default function MetricsCharts({ data }) {
                 >
                   <LineChart>
                     <Line type="monotone" dataKey="steps_norm" stroke="#2bd4ff" strokeWidth={2} dot={false} />
-                    <Line type="monotone" dataKey="hr_norm" stroke="#ff5b6e" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="hr_norm" stroke="#35f4c0" strokeWidth={2} dot={false} />
                   </LineChart>
                 </Brush>
               </LineChart>
