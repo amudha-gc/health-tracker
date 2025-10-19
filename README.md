@@ -77,11 +77,11 @@ Follow these steps to get the application running with Docker Compose:
     {"status":"ok","message":"Health Tracker API is running"}
     ```
 * **Troubleshooting:**
-  	In case Chrome finds the application unreachable, it is most likely due to HSTS rules. Launch a truly fresh Chrome profile from a terminal:
+  	In case the Chrome browser finds the application unreachable, it is most likely due to HSTS rules. Launch a truly fresh Chrome profile from a terminal (use VM ip instead of localhost if running from within a VM):
     ```bash
     /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
    --user-data-dir=/tmp/chrome-ht-test --disable-extensions \
-  http://192.168.64.2:3001/
+  http://localhost:3001/
    ```
 
 ## API Endpoints
