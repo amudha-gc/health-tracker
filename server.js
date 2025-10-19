@@ -20,6 +20,7 @@ app.use(
   helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
+    hsts: false, //Disable HSTS for local for now
   })
 );
 
